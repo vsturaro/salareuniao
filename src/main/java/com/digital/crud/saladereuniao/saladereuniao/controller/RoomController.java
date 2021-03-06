@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 
-@RestController @CrossOrigin(origins ="http://localhost:4280")
+@RestController @CrossOrigin(origins ="http://localhost:4200")
 @RequestMapping("/api/v1")
 public class RoomController {
 
@@ -33,7 +33,7 @@ public class RoomController {
         return roomRepository.findAll();
     }
 
-    @GetMapping("/rooms/id")
+    @GetMapping("/rooms/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId) throws ResourceNotFoundException{
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found:: "+roomId));
@@ -54,6 +54,7 @@ public class RoomController {
         final Room updateRoom = roomRepository.save(room);
         return ResponseEntity.ok(updateRoom);
     }
+    @DeleteMapping("/rooms/{id}")
     public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long roomId) throws ResourceNotFoundException{
         Room room= roomRepository.findById(roomId)
                 .orElseThrow(()-> new RasterFormatException("Room not found for this id::" +roomId));
